@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dari AJI, untuk JINGGAAA</title>
+    <style>
+        /* Mengimpor font elegan dari Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400;500&display=swap');
+        
+        :root {
+            --primary: #d4778d; /* Warna pink utama */
+            --bg-light: #fff5f7;
+            --text-dark: #5c3a41;
+            --text-light: #8d626a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            /* Background warna/gradien dihapus agar video bisa terlihat */
+            background-color: transparent; 
+            color: var(--text-dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* --- PENGATURAN VIDEO BACKGROUND --- */
+        #bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover; /* Memaksa video menutupi layar */
+            z-index: -2; /* Memastikan video ada di paling belakang */
+        }
+
+        /* Filter transparan di atas video agar teks mudah dibaca */
+        #video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255, 245, 247, 0.7); /* Pink transparan (ubah angka 0.7 untuk ketebalan) */
+            z-index: -1; 
+        }
+        /* ----------------------------------- */
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+        }
+
+        /* Tampilan Overlay Awal */
+        #welcome-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 230, 234, 0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 1s ease-out;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        #welcome-overlay h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .pulse {
+            animation: pulse 1.5s infinite;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.05); opacity: 1; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* Container Konten Utama */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            display: none; /* Disembunyikan sampai user klik 'Tap to open' */
+        }
+
+        /* Animasi Scroll untuk setiap section */
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 1.2s ease-out;
+            padding: 50px 0;
+        }
+
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Header / Hero */
+        .hero-title {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .scroll-down {
+            margin-top: 50px;
+            font-size: 1rem;
+            color: var(--text-light);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* Kotak Surat */
+        .letter {
+            background: rgba(255, 255, 255, 0.9); /* Sedikit transparan agar menyatu dengan video */
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(212, 119, 141, 0.15);
+            position: relative;
+            max-width: 650px;
+            line-height: 1.8;
+            font-size: 1.05rem;
+            text-align: left;
+            margin: 0 auto;
+        }
+
+        .letter h2 {
+            text-align: center;
+            color: var(--primary);
+        }
+
+        /* Grid untuk Alasan dan Bunga */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.9); /* Sedikit transparan */
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* Secret Garden (Efek Hover) */
+        .flower-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin: 10px auto;
+            box-shadow: 0 5px 15px rgba(212, 119, 141, 0.2);
+            cursor: pointer;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .flower-meaning {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            border-radius: 50%;
+            transition: opacity 0.4s ease;
+            text-align: center;
+            padding: 15px;
+            box-sizing: border-box;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .flower-card:hover .flower-meaning {
+            opacity: 1;
+        }
+
+        /* Album Foto */
+                /* Album Foto */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Membuat jadi 2 kotak ke samping */
+            gap: 15px;
+            width: 100%;
+            max-width: 600px;
+            /* margin: 0 auto; akan memaksa seluruh blok galeri berada di tengah layar */
+            margin: 20px auto 0 auto; 
+        }
+        
+        .gallery-item {
+            height: 200px;
+            border-radius: 15px;
+            /* Flexbox di bawah ini yang memaksa tulisan berada tepat di tengah kotak */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            /* Efek bayangan agar tulisan putih tidak menyatu dengan foto yang terang */
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8); 
+            
+            background-size: cover;
+            background-position: center; /* Memastikan bagian tengah foto yang terlihat */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        }
+
+        /* Pemutar Musik */
+        #music-player {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: white;
+            padding: 12px 20px;
+            border-radius: 50px;
+            box-shadow: 0 8px 25px rgba(212, 119, 141, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 100;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        #music-player:hover {
+            transform: scale(1.05);
+        }
+
+        .disc {
+            width: 35px; height: 35px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 12px;
+            animation: spin 3s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .playing .disc {
+            animation-play-state: running;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="1.mp4" type="video/mp4">
+    </video>
+    <div id="video-overlay"></div>
+    <div id="welcome-overlay">
+        <h1>Dari AJI, Untuk JINGGA </h1>
+        <p class="pulse">✨ Teken ini sayang!✨</p>
+    </div>
+
+    <div id="music-player">
+        <div class="disc">♪</div>
+        <div class="music-info">
+            <span id="music-text" style="font-size: 0.9rem; font-weight: 500;">♪ </span>
+        </div>
+        <audio id="bg-music" loop>
+            <source src="1.mp3" type="audio/mpeg">
+        </audio>
+    </div>
+
+    <div class="container" id="main-content">
+        
+        <section id="hero">
+            <p style="letter-spacing: 2px;">SURAT CINTA UNTUK JINGGA</p>
+            <h1 class="hero-title">JINGGA SULIASTANTI WAHYU SAPUTRI</h1>
+            <p>property by styorhdy_</p>
+            <div class="scroll-down">Scroll Sayanggg ↓</div>
+        </section>
+
+        <section>
+            <p style="color: var(--primary); letter-spacing: 10px;">🌸 🌺 🌸</p>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">untuk putri kecil ayah</p>
+            <div class="letter">
+                <h2>Warna.</h2>
+                <p>Di dunia ku yang penuh dengan momen-momen biasa, kau yang tak sengaja ku undang untuk datang ke duniaku. Cara kau tertawa, cara kau peduli, cara kau sekadar ada itu mengisi setiap sudut duniaku dengan sesuatu yang tak pernah kusadari kubutuhkan.</p>
+                <p>Web ini tidak cukup. Untuk mengatakan semuanya. Tetapi di Web ini membawa setiap perasaan yang tak terucapkan yang kupendam untukmu, terselip di antara isinya seperti surat-surat cinta kecil yang menunggu untuk ditemukan.</p>
+                <p style="text-align: right; margin-top: 30px;"><b>— Satyo 🌹</b></p>
+            </div>
+        </section>
+
+        <section>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">a thousand reasons why</p>
+            <h2 class="hero-title">Kenapa Aku Suka Kamu?</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>🌹 Semyummu</h3>
+                    <p>Senyum ikhlas yang aku liat dan senyum itu yang setiap hari aku ingin lihat dari wahajmu.</p>
+                </div>
+                <div class="card">
+                    <h3>💫 Jiwamu</h3>
+                    <p>Sangat langka, bagaikan Senja tidak pernah membuatku kecewa dan membuatku terus berulang kali ingin melihatnya.</p>
+                </div>
+                <div class="card">
+                    <h3>🌸 Kebaikanmu dan Ketulusanmu</h3>
+                    <p>Cara kamu memandang dunia, sungguh membuatku terpana dan ingin menjadi lebih baik disetiap harinya.</p>
+                </div>
+                <div class="card">
+                    <h3>✨ Tawamu</h3>
+                    <p>Suara paling indah. Nada Favoritku, always.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">Taman Rahasia</p>
+            <h2 class="hero-title">Taman Kecil Yang Dibuat Dari Kamu</h2>
+            <p style="font-size: 0.9em; color: var(--text-light); margin-bottom: 30px;">✨ setiap bunga memiliki arti dari diri kamu ✨</p>
+            <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));">
+                <div class="flower-card">
+                    <div style="font-size: 3.5rem;">🌹</div>
+                    <p style="font-family: 'Playfair Display', serif; font-weight: 600;">Rose</p>
+                    <div class="flower-meaning">Endless Love</div>
+                </div>
+                <div class="flower-card">
+                    <div style="font-size: 3.5rem;">🌸</div>
+                    <p style="font-family: 'Playfair Display', serif; font-weight: 600;">Cherry Blossom</p>
+                    <div class="flower-meaning">Gentle Beauty</div>
+                </div>
+                <div class="flower-card">
+                    <div style="font-size: 3.5rem;">🌻</div>
+                    <p style="font-family: 'Playfair Display', serif; font-weight: 600;">Sunflower</p>
+                    <div class="flower-meaning">Warmth & Joy</div>
+                </div>
+                <div class="flower-card">
+                    <div style="font-size: 3.5rem;">🌷</div>
+                    <p style="font-family: 'Playfair Display', serif; font-weight: 600;">Tulip</p>
+                    <div class="flower-meaning">Perfect Happiness</div>
+                </div>
+            </div>
+        </section>
+
+                <section>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">GALERY CINTA</p>
+            <h2 class="hero-title">AJI DAN JINGGA</h2>
+            <div class="gallery">
+                <div class="gallery-item" style="background-image: url('2.jpg');">you</div>
+                <div class="gallery-item" style="background-image: url('5.jpg');">are</div>
+                <div class="gallery-item" style="background-image: url('6.jpg');">so</div>
+                <div class="gallery-item" style="background-image: url('3.jpg');">beautiful</div>
+            </div>
+        </section>
+
+
+        <section>
+            <p style="letter-spacing: 10px; font-size: 1.5rem;">🌸🌺🌹🌸🌷</p>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem;">always & forever</p>
+            <h2 class="hero-title">You Are Loved Beyond Words</h2>
+            <p style="max-width: 600px; margin: 0 auto; line-height: 1.8;">No matter where life takes us, know that somewhere in the universe, there is a garden blooming with every feeling I have ever held for you. You deserve the world. You deserve all the flowers. You deserve everything. 💗</p>
+            <br><br>
+            <p><b>Made with love, just for you 🌸</b></p>
+            <p style="font-size: 0.8rem; color: var(--text-light); margin-top: 20px;">🌸 crafted with love & petals 🌸</p>
+        </section>
+
+    </div>
+
+    <script>
+        const welcomeOverlay = document.getElementById('welcome-overlay');
+        const mainContent = document.getElementById('main-content');
+        const musicPlayer = document.getElementById('music-player');
+        const audio = document.getElementById('bg-music');
+        const musicText = document.getElementById('music-text');
+
+        let isPlaying = false;
+
+        // Logika play/pause musik
+        function togglePlay() {
+            if (isPlaying) {
+                audio.pause();
+                musicPlayer.classList.remove('playing');
+                musicText.innerText = "♪ Tap to play music";
+            } else {
+                audio.play().catch(e => console.log("Gagal memutar audio:", e));
+                musicPlayer.classList.add('playing');
+                musicText.innerText = "♪ Now Playing...";
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // Hilangkan overlay awal, tampilkan konten, dan putar lagu saat di-klik
+        welcomeOverlay.addEventListener('click', () => {
+            welcomeOverlay.style.opacity = '0';
+            setTimeout(() => {
+                welcomeOverlay.style.display = 'none';
+                mainContent.style.display = 'block';
+                // Trigger scroll buatan agar animasi pertama langsung muncul
+                window.dispatchEvent(new Event('scroll'));
+                // Mulai mainkan musik
+                togglePlay();
+            }, 800);
+        });
+
+        // Klik pemutar lagu di pojok kanan bawah
+        musicPlayer.addEventListener('click', togglePlay);
+
+        // Intersection Observer agar section muncul halus saat di-scroll
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
